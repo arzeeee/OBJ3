@@ -22,7 +22,7 @@ public class MalingAyam2017 extends JFrame {
         setResizable(false);
         pack();
         
-        setTitle("Collision");
+        setTitle("MALING AYAM 2017");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

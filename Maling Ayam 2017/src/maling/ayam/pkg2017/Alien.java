@@ -5,10 +5,13 @@
  */
 package maling.ayam.pkg2017;
 
+import static java.lang.Math.abs;
+import java.util.Random;
+
 public class Alien extends Sprite {
 
     private final int INITIAL_X = 800;
-
+    
     public Alien(int x, int y) {
         super(x, y);
 
@@ -17,16 +20,19 @@ public class Alien extends Sprite {
 
     private void initAlien() {
 
-        loadImage("alien.png");
+        loadImage("alien2.png");
         getImageDimensions();
     }
 
-    public void move() {
-
-        if (x < 0) {
-            x = INITIAL_X;
-        }
-
-        x -= 1;
+    void setX(int _x) {
+        x = _x;
     }
+
+    
+    void setY(int _y) {
+        y = _y;
+    }
+
+
+
 }

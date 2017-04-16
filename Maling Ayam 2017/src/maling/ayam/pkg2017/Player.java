@@ -31,7 +31,7 @@ public class Player extends Sprite {
     
     public void animate() {
         count++;
-        if (count >3) {
+        if (count > 3) {
                 count = 1;
             }
         

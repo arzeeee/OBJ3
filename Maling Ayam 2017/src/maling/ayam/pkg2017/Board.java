@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -34,11 +35,11 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private final int DELAY = 15;
     private Thread animator;
     
-    private final int[][] posAlien = {
-        {820, 128}, {490, 170}, {700, 30}
+    private final int[][] initPosAlien = {
+        {820, 128}
     };
 
-    private final int[][] posAnimal = {
+    private final int[][] initPosAnimal = {
         {2380, 29}, {2500, 59}, {1380, 89},
         {780, 109}, {580, 139}, {680, 239},
         {790, 259}, {760, 50}, {790, 150},
@@ -46,7 +47,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {930, 159}, {590, 80}, {530, 60},
         {940, 59}, {990, 30}, {920, 200},
         {900, 259}, {660, 50}, {540, 90},
-        {810, 220}, {860, 20}, {740, 180}
+        {810, 220}, {860, 20}, {740, 180},
+        {700, 120}, {760, 20}, {600, 180},
+        {200, 100}, {60, 800}, {100, 580}
     };
     
     public Board() {
@@ -75,18 +78,67 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initAliens() {
         aliens = new ArrayList<>();
 
-        for (int[] p : posAlien) {
+        for (int[] p : initPosAlien) {
             aliens.add(new Alien(p[0], p[1]));
         }
     }
 
+    public void moveAlien() {
+
+        for (int i = 0; i < aliens.size(); i++) {
+
+            Alien alien = aliens.get(i);
+
+            //non-random movement to catch player
+            int deltaX = Math.abs(alien.getX() - craft.getX());
+            int deltaY = Math.abs(alien.getY() - craft.getY());
+            if (deltaX == 0) { //absis parallel move closer to ordinat
+                if (alien.getY() > craft.getY()) {
+                    alien.setY(alien.getY() - 2);//move faster when parallel
+                } else {
+                    alien.setY(alien.getY() + 2);
+                }
+            } else if (deltaY == 0) { //ordinat parallel move closer to absis
+                if (alien.getX() > craft.getX()) {
+                    alien.setX(alien.getX() - 2);
+                } else {
+                    alien.setX(alien.getX() + 2);
+                }            
+            } else if (deltaX != 0 && deltaY != 0) {
+                //find nearest path to get its absis parallel
+                if (alien.getX() > craft.getX()) {
+                    alien.setX(alien.getX() - 1);//move slower when not parallel
+                } else {
+                    alien.setX(alien.getX() + 1);
+                }
+            }
+        }        
+
+    }
+        
     public void initAnimals() {
         chickens = new ArrayList<>();
 
-        for (int[] p : posAnimal) {
+        for (int[] p : initPosAnimal) {
             chickens.add(new Animal(p[0], p[1]));
         }
     }
+
+    public void moveChicken() {
+        
+        for (int i = 0; i < chickens.size(); i++) {
+
+            Animal chicken = chickens.get(i);
+            //generate random movement
+            Random rand = new Random();
+            int newX = chicken.getX() + (rand.nextInt(3) - 1);
+            chicken.setX(newX);
+            if (rand.nextInt(3) - 1 == 0) { //absis doesn't change
+                int newY = chicken.getY() + (rand.nextInt(3) - 1); //change ordinat
+                chicken.setY(newY);
+            }
+        }
+    }  
         
     @Override
     public void paintComponent(Graphics g) {
@@ -178,9 +230,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         for (int i = 0; i < aliens.size(); i++) {
 
-            Alien a = aliens.get(i);
-            if (a.isVisible()) {
-                a.move();
+            Alien alien = aliens.get(i);
+            if (alien.isVisible()) {
+                moveAlien();
             } else {
                 aliens.remove(i);
             }
@@ -197,9 +249,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         for (int i = 0; i < chickens.size(); i++) {
 
-            Animal a = chickens.get(i);
-            if (a.isVisible()) {
-                a.move();
+            Animal chicken = chickens.get(i);
+            if (chicken.isVisible()) {
+                moveChicken();
             } else {
                 chickens.remove(i);
             }

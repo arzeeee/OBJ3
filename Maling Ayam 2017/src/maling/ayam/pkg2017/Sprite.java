@@ -2,6 +2,7 @@ package maling.ayam.pkg2017;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import static java.lang.System.in;
 import javax.swing.ImageIcon;
 
 public class Sprite {
@@ -12,7 +13,7 @@ public class Sprite {
     protected int height;
     protected boolean vis;
     protected Image image;
-
+    
     public Sprite(int x, int y) {
 
         this.x = x;

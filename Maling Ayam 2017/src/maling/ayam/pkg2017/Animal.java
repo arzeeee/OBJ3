@@ -27,16 +27,12 @@ public class Animal extends Sprite {
         getImageDimensions();
     }
 
-    public void move() {
+    void setX(int _x) {
+        x = _x;
+    }
 
-        if (x < 0) {
-            x = INITIAL_X;
-        }
-        //generate random movement
-        Random rand = new Random();
-        x += (rand.nextInt(3) - 1) * 2;
-        if (rand.nextInt(3) - 1 == 0) {
-            y += (rand.nextInt(3) - 1) * 2;
-        }
-    }    
+    void setY(int _y) {
+        y = _y;
+    }
+  
 }
