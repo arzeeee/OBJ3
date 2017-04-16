@@ -13,6 +13,7 @@ public class Player extends Sprite {
     private int dy;
     private int direction;
     private int count;
+    private int score;
 
     public Player(int x, int y) {
         super(x, y);
@@ -134,4 +135,12 @@ public class Player extends Sprite {
     public int getCount() {
         return count;
     }
+    
+    public int getScore() {
+        return score;
+    }
+    
+    public void setScore(int _score) {
+        score = _score;
+    }    
 }
