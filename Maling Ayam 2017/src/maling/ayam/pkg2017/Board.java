@@ -25,6 +25,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private Timer timer;
     private Player craft;
     private ArrayList<Alien> aliens;
+    private ArrayList<Animal> chickens;
     private boolean ingame;
     private final int ICRAFT_X = 40;
     private final int ICRAFT_Y = 60;
@@ -33,7 +34,11 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private final int DELAY = 15;
     private Thread animator;
     
-    private final int[][] pos = {
+    private final int[][] posAlien = {
+        {820, 128}, {490, 170}, {700, 30}
+    };
+
+    private final int[][] posAnimal = {
         {2380, 29}, {2500, 59}, {1380, 89},
         {780, 109}, {580, 139}, {680, 239},
         {790, 259}, {760, 50}, {790, 150},
@@ -41,10 +46,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {930, 159}, {590, 80}, {530, 60},
         {940, 59}, {990, 30}, {920, 200},
         {900, 259}, {660, 50}, {540, 90},
-        {810, 220}, {860, 20}, {740, 180},
-        {820, 128}, {490, 170}, {700, 30}
+        {810, 220}, {860, 20}, {740, 180}
     };
-
+    
     public Board() {
 
         initBoard();
@@ -62,6 +66,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         craft = new Player(ICRAFT_X, ICRAFT_Y);
 
         initAliens();
+        initAnimals();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -70,11 +75,19 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initAliens() {
         aliens = new ArrayList<>();
 
-        for (int[] p : pos) {
+        for (int[] p : posAlien) {
             aliens.add(new Alien(p[0], p[1]));
         }
     }
 
+    public void initAnimals() {
+        chickens = new ArrayList<>();
+
+        for (int[] p : posAnimal) {
+            chickens.add(new Animal(p[0], p[1]));
+        }
+    }
+        
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -99,15 +112,21 @@ public class Board extends JPanel implements ActionListener, Runnable {
                     this);            
         }
 
-        for (Alien a : aliens) {
-            if (a.isVisible()) {
-                g.drawImage(a.getImage(), a.getX(), a.getY(), this);
+        for (Alien alien : aliens) {
+            if (alien.isVisible()) {
+                g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
             }
         }
 
+        for (Animal chicken : chickens) {
+            if (chicken.isVisible()) {
+                g.drawImage(chicken.getImage(), chicken.getX(), chicken.getY(), this);
+            }
+        }
+                
         g.setColor(Color.WHITE);
         g.drawString("Direction: " + craft.getDir(), 5, 15);
-        g.drawString("Score: " + craft.getDir(), 100, 15);
+        g.drawString("Score: " + craft.getScore(), 100, 15);
     }
 
     private void drawGameOver(Graphics g) {
@@ -129,7 +148,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         updateCraft();
         updateAliens();
-
+        updateChickens();
         checkCollisions();
 
         repaint();
@@ -168,6 +187,25 @@ public class Board extends JPanel implements ActionListener, Runnable {
         }
     }
 
+    private void updateChickens() {
+
+        if (chickens.isEmpty()) {
+
+            ingame = false;
+            return;
+        }
+
+        for (int i = 0; i < chickens.size(); i++) {
+
+            Animal a = chickens.get(i);
+            if (a.isVisible()) {
+                a.move();
+            } else {
+                chickens.remove(i);
+            }
+        }
+    }
+        
     public void checkCollisions() {
 
         Rectangle r3 = craft.getBounds();
@@ -179,6 +217,16 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 craft.setVisible(false);
                 alien.setVisible(false);
                 ingame = false;
+            }
+        }
+        
+        for (Animal chicken : chickens) {
+            Rectangle r1 = chicken.getBounds();
+
+            if (r3.intersects(r1)) {
+                chicken.setVisible(false);
+                int score = craft.getScore() + 5;
+                craft.setScore(score);
             }
         }
     }
