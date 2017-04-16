@@ -5,6 +5,10 @@
  */
 package maling.ayam.pkg2017;
 
+import static java.lang.Math.random;
+import static java.lang.StrictMath.random;
+import java.util.Random;
+
 /**
  *
  * @author Rizky Faramita
@@ -28,7 +32,11 @@ public class Animal extends Sprite {
         if (x < 0) {
             x = INITIAL_X;
         }
-
-        x -= 1;
+        //generate random movement
+        Random rand = new Random();
+        x += (rand.nextInt(3) - 1) * 2;
+        if (rand.nextInt(3) - 1 == 0) {
+            y += (rand.nextInt(3) - 1) * 2;
+        }
     }    
 }
