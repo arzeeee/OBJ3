@@ -7,17 +7,12 @@ import javax.swing.ImageIcon;
 
 public class Sprite {
 
-    protected int x;
-    protected int y;
     protected int width;
     protected int height;
     protected boolean vis;
     protected Image image;
     
-    public Sprite(int x, int y) {
-
-        this.x = x;
-        this.y = y;
+    public Sprite() {
         vis = true;
     }
 
@@ -37,12 +32,12 @@ public class Sprite {
         return image;
     }
 
-    public int getX() {
-        return x;
+    public int getWidthSprite() {
+        return width;
     }
-
-    public int getY() {
-        return y;
+    
+    public int getHeightSprite() {
+        return height;
     }
 
     public boolean isVisible() {
@@ -51,9 +46,5 @@ public class Sprite {
 
     public void setVisible(Boolean visible) {
         vis = visible;
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
     }
 }

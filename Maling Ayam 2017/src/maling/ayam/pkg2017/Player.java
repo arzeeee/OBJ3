@@ -5,133 +5,47 @@
  */
 package maling.ayam.pkg2017;
 
-import java.awt.event.KeyEvent;
-
-public class Player extends Sprite {
-
+/**
+ *
+ * @author Aya Aurora
+ */
+public class Player {
+    
+    private int x;
+    private int y;
     private int dx;
     private int dy;
     private int direction;
     private int count;
     private int score;
-
+    
     public Player(int x, int y) {
-        super(x, y);
-
-        initCraft();
-    }
-
-    private void initCraft() {
-        
-        loadImage("craft.png");
-        getImageDimensions();
-        direction = 1;
-        count = 1;
+        this.x = x;
+        this.y = y;
+        this.direction = 1;
+        this.count = 1;
     }
     
-    public void animate() {
-        count++;
-        if (count > 3) {
-                count = 1;
-            }
-        
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
     
-    public void move() {
-
-        x += dx;
-        y += dy;
-        
-        if (x < 1) {
-            x = 1;
-        }
-
-        if (y < 1) {
-            y = 1;
-        }
-        
-        
-        if (direction == 1) {
-            loadImage("craft" + count + "down.png");
-            getImageDimensions();
-        }
-        
-        if (direction == 2) {
-            loadImage("craft" + count + "right.png");
-            getImageDimensions();
-        }
-        
-        if (direction == 3) {
-            loadImage("craft"+ count + "up.png");
-            getImageDimensions();
-        }
-        
-        if (direction == 4) {
-            loadImage("craft" + count + "left.png");
-            getImageDimensions();
-        }
+    public int getDx() {
+        return dx;
     }
 
+    public int getDy() {
+        return dy;
+    }
     
-    
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_SPACE) {
-            //Spasi
-        }
-
-        if (key == KeyEvent.VK_LEFT) {
-            dx = -2;
-            direction = 4;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            dx = 2;
-            direction = 2;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            dy = -2;
-            direction = 3;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            dy = 2;
-            direction = 1;
-        }
-    }
-
-
-    public void keyReleased(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
-            direction = 1;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
-            direction = 1;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            dy = 0;
-            direction = 1;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
-            direction = 1;
-        }
-    }
-    public int getDir() {
+    public int getDirection() {
         return direction;
     }
-    
+
     public int getCount() {
         return count;
     }
@@ -140,7 +54,31 @@ public class Player extends Sprite {
         return score;
     }
     
-    public void setScore(int _score) {
-        score = _score;
-    }    
+    void setX(int x) {
+        this.x = x;
+    }
+    
+    void setY(int y) {
+        this.y = y;
+    }
+    
+    void setDx(int dx) {
+        this.dx = dx;
+    }
+    
+    void setDy(int dy) {
+        this.dy = dy;
+    }
+    
+    void setDirection(int direction) {
+        this.direction = direction;
+    }
+    
+    void setCount(int count) {
+        this.count = count;
+    }
+    
+    void setScore(int score) {
+        this.score = score;
+    }
 }

@@ -5,34 +5,35 @@
  */
 package maling.ayam.pkg2017;
 
-import static java.lang.Math.random;
-import static java.lang.StrictMath.random;
-import java.util.Random;
-
 /**
  *
- * @author Rizky Faramita
+ * @author Aya Aurora
  */
-public class Animal extends Sprite {
-
-    private final int INITIAL_X = 800;
+public class Animal {
+    
+    private int x;
+    private int y;
     
     public Animal(int x, int y) {
-        super(x, y);
-        initAnimal();
+        this.x = x;
+        this.y = y;
+    }
+    
+    public int getX() {
+        return x;
     }
 
-    private void initAnimal() {
-        loadImage("chicken.png");
-        getImageDimensions();
+    public int getY() {
+        return y;
+    }
+    
+    void setX(int x) {
+        this.x = x;
     }
 
-    void setX(int _x) {
-        x = _x;
+    
+    void setY(int y) {
+        this.y = y;
     }
-
-    void setY(int _y) {
-        y = _y;
-    }
-  
+    
 }

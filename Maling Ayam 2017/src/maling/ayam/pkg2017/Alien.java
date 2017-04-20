@@ -5,34 +5,33 @@
  */
 package maling.ayam.pkg2017;
 
-import static java.lang.Math.abs;
-import java.util.Random;
-
-public class Alien extends Sprite {
-
-    private final int INITIAL_X = 800;
+/**
+ *
+ * @author Aya Aurora
+ */
+public class Alien {
+    
+    private int x;
+    private int y;
     
     public Alien(int x, int y) {
-        super(x, y);
-
-        initAlien();
+        this.x = x;
+        this.y = y;
     }
-
-    private void initAlien() {
-
-        loadImage("alien2.png");
-        getImageDimensions();
-    }
-
-    void setX(int _x) {
-        x = _x;
-    }
-
     
-    void setY(int _y) {
-        y = _y;
+    public int getX() {
+        return x;
     }
 
+    public int getY() {
+        return y;
+    }
+    
+    void setX(int x) {
+        this.x = x;
+    }
 
-
+    void setY(int y) {
+        this.y = y;
+    }
 }

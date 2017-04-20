@@ -24,9 +24,9 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener, Runnable {
 
     private Timer timer;
-    private Player craft;
-    private ArrayList<Alien> aliens;
-    private ArrayList<Animal> chickens;
+    private PlayerController craft;
+    private ArrayList<AlienController> aliens;
+    private ArrayList<AnimalController> chickens;
     private boolean ingame;
     private final int ICRAFT_X = 40;
     private final int ICRAFT_Y = 60;
@@ -58,7 +58,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void initBoard() {
-
+        
+        Player model = new Player(ICRAFT_X, ICRAFT_Y);
+        PlayerView view = new PlayerView();
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
@@ -66,7 +68,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
-        craft = new Player(ICRAFT_X, ICRAFT_Y);
+        craft = new PlayerController(model, view);
 
         initAliens();
         initAnimals();
@@ -79,7 +81,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
         aliens = new ArrayList<>();
 
         for (int[] p : initPosAlien) {
-            aliens.add(new Alien(p[0], p[1]));
+            Alien model = new Alien(p[0], p[1]);
+            AlienView view = new AlienView();
+            aliens.add(new AlienController(model,view));
         }
     }
 
@@ -87,29 +91,29 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         for (int i = 0; i < aliens.size(); i++) {
 
-            Alien alien = aliens.get(i);
+            AlienController alien = aliens.get(i);
 
             //non-random movement to catch player
-            int deltaX = Math.abs(alien.getX() - craft.getX());
-            int deltaY = Math.abs(alien.getY() - craft.getY());
+            int deltaX = Math.abs(alien.getXAlien() - craft.getXPlayer());
+            int deltaY = Math.abs(alien.getYAlien() - craft.getYPlayer());
             if (deltaX == 0) { //absis parallel move closer to ordinat
-                if (alien.getY() > craft.getY()) {
-                    alien.setY(alien.getY() - 2);//move faster when parallel
+                if (alien.getYAlien() > craft.getYPlayer()) {
+                    alien.setYAlien(alien.getYAlien() - 2);//move faster when parallel
                 } else {
-                    alien.setY(alien.getY() + 2);
+                    alien.setYAlien(alien.getYAlien() + 2);
                 }
             } else if (deltaY == 0) { //ordinat parallel move closer to absis
-                if (alien.getX() > craft.getX()) {
-                    alien.setX(alien.getX() - 2);
+                if (alien.getXAlien() > craft.getXPlayer()) {
+                    alien.setXAlien(alien.getXAlien() - 2);
                 } else {
-                    alien.setX(alien.getX() + 2);
+                    alien.setXAlien(alien.getXAlien() + 2);
                 }            
             } else if (deltaX != 0 && deltaY != 0) {
                 //find nearest path to get its absis parallel
-                if (alien.getX() > craft.getX()) {
-                    alien.setX(alien.getX() - 1);//move slower when not parallel
+                if (alien.getXAlien() > craft.getXPlayer()) {
+                    alien.setXAlien(alien.getXAlien() - 1);//move slower when not parallel
                 } else {
-                    alien.setX(alien.getX() + 1);
+                    alien.setXAlien(alien.getXAlien() + 1);
                 }
             }
         }        
@@ -120,7 +124,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
         chickens = new ArrayList<>();
 
         for (int[] p : initPosAnimal) {
-            chickens.add(new Animal(p[0], p[1]));
+            Animal model = new Animal(p[0], p[1]);
+            AnimalView view = new AnimalView();
+            chickens.add(new AnimalController(model,view));
         }
     }
 
@@ -128,14 +134,14 @@ public class Board extends JPanel implements ActionListener, Runnable {
         
         for (int i = 0; i < chickens.size(); i++) {
 
-            Animal chicken = chickens.get(i);
+            AnimalController chicken = chickens.get(i);
             //generate random movement
             Random rand = new Random();
-            int newX = chicken.getX() + (rand.nextInt(3) - 1);
-            chicken.setX(newX);
+            int newX = chicken.getXAnimal() + (rand.nextInt(3) - 1);
+            chicken.setXAnimal(newX);
             if (rand.nextInt(3) - 1 == 0) { //absis doesn't change
-                int newY = chicken.getY() + (rand.nextInt(3) - 1); //change ordinat
-                chicken.setY(newY);
+                int newY = chicken.getYAnimal() + (rand.nextInt(3) - 1); //change ordinat
+                chicken.setYAnimal(newY);
             }
         }
     }  
@@ -158,27 +164,27 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
     private void drawObjects(Graphics g) {
 
-        if (craft.isVisible()) {
+        if (craft.isVisiblePlayer()) {
             
-            g.drawImage(craft.getImage(), craft.getX(), craft.getY(),
+            g.drawImage(craft.getImagePlayer(), craft.getXPlayer(), craft.getYPlayer(),
                     this);            
         }
 
-        for (Alien alien : aliens) {
-            if (alien.isVisible()) {
-                g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
+        for (AlienController alien : aliens) {
+            if (alien.isVisibleAlien()) {
+                g.drawImage(alien.getImageAlien(), alien.getXAlien(), alien.getYAlien(), this);
             }
         }
 
-        for (Animal chicken : chickens) {
-            if (chicken.isVisible()) {
-                g.drawImage(chicken.getImage(), chicken.getX(), chicken.getY(), this);
+        for (AnimalController chicken : chickens) {
+            if (chicken.isVisibleAnimal()) {
+                g.drawImage(chicken.getImageAnimal(), chicken.getXAnimal(), chicken.getYAnimal(), this);
             }
         }
                 
         g.setColor(Color.WHITE);
-        g.drawString("Direction: " + craft.getDir(), 5, 15);
-        g.drawString("Score: " + craft.getScore(), 100, 15);
+        g.drawString("Direction: " + craft.getDirectionPlayer(), 5, 15);
+        g.drawString("Score: " + craft.getScorePlayer(), 100, 15);
     }
 
     private void drawGameOver(Graphics g) {
@@ -215,7 +221,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
     private void updateCraft() {
 
-        if (craft.isVisible()) {
+        if (craft.isVisiblePlayer()) {
             craft.move();
         }
     }
@@ -230,8 +236,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         for (int i = 0; i < aliens.size(); i++) {
 
-            Alien alien = aliens.get(i);
-            if (alien.isVisible()) {
+            AlienController alien = aliens.get(i);
+            if (alien.isVisibleAlien()) {
                 moveAlien();
             } else {
                 aliens.remove(i);
@@ -249,8 +255,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         for (int i = 0; i < chickens.size(); i++) {
 
-            Animal chicken = chickens.get(i);
-            if (chicken.isVisible()) {
+            AnimalController chicken = chickens.get(i);
+            if (chicken.isVisibleAnimal()) {
                 moveChicken();
             } else {
                 chickens.remove(i);
@@ -260,25 +266,25 @@ public class Board extends JPanel implements ActionListener, Runnable {
         
     public void checkCollisions() {
 
-        Rectangle r3 = craft.getBounds();
+        Rectangle r3 = craft.getBoundsPlayer();
 
-        for (Alien alien : aliens) {
-            Rectangle r2 = alien.getBounds();
+        for (AlienController alien : aliens) {
+            Rectangle r2 = alien.getBoundsAlien();
 
             if (r3.intersects(r2)) {
-                craft.setVisible(false);
-                alien.setVisible(false);
+                craft.setVisiblePlayer(false);
+                alien.setVisibleAlien(false);
                 ingame = false;
             }
         }
         
-        for (Animal chicken : chickens) {
-            Rectangle r1 = chicken.getBounds();
+        for (AnimalController chicken : chickens) {
+            Rectangle r1 = chicken.getBoundsAnimal();
 
             if (r3.intersects(r1)) {
-                chicken.setVisible(false);
-                int score = craft.getScore() + 5;
-                craft.setScore(score);
+                chicken.setVisibleAnimal(false);
+                int score = craft.getScorePlayer() + 5;
+                craft.setScorePlayer(score);
             }
         }
     }
