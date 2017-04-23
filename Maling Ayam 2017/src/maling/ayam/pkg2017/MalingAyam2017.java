@@ -17,8 +17,8 @@ public class MalingAyam2017 extends JFrame {
     
     private void initUI() {
         
-        add(new Board());
-        
+        //add(new Board());
+        add(new MainMenu());
         setResizable(false);
         pack();
         
