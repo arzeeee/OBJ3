@@ -8,9 +8,6 @@ package maling.ternak.pkg2017;
 import playerController.PlayerController;
 import keeperController.KeeperController;
 import animalController.chickenController.AnimalController;
-import dogController.DogController;
-import dogView.DogView;
-import dog.Dog;
 import keeper.Keeper;
 import animal.chicken.Animal;
 import player.Player;
@@ -43,7 +40,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private Timer timer;
     private PlayerController player;
     private ArrayList<KeeperController> keepers;
-    private ArrayList<DogController> dogs;
+    private ArrayList<KeeperController> dogs;
     private ArrayList<AnimalController> chickens;
     private ArrayList<AnimalController> bebeks;
     private ArrayList<AnimalController> angsas;
@@ -55,7 +52,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private final int B_HEIGHT = 600;
     private final int DELAY = 15;
     private Thread animator;
-    private int time = 300;
+    private int time = 100;
     private Image tile;
     private int tileWidth;
     private int tileHeight;
@@ -157,7 +154,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initKeepers() {
         keepers = new ArrayList<>();
         for (int[] p : initPosKeeper) {
-            Keeper model = new Keeper(p[0], p[1]);
+            Keeper model = new Keeper(p[0], p[1],1);
             KeeperView view = new KeeperView();
             keepers.add(new KeeperController(model,view));
         }
@@ -166,9 +163,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initDogs() {
         dogs = new ArrayList<>();
         for (int[] p : initPosDog) {
-            Dog model = new Dog(p[0], p[1]);
-            DogView view = new DogView();
-            dogs.add(new DogController(model,view));
+            Keeper model = new Keeper(p[0], p[1],2);
+            KeeperView view = new KeeperView();
+            dogs.add(new KeeperController(model,view));
         }
     }
 
@@ -181,8 +178,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     
     public void moveDog() {
         for (int i = 0; i < dogs.size(); i++) {
-            DogController dog = dogs.get(i);
-            dog.move();
+            KeeperController dog = dogs.get(i);
+            dog.move(player);
         }        
     }
         
@@ -271,7 +268,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 g.drawImage(keeper.getImage(), keeper.getXModel(), keeper.getYModel(), this);
             }
         }        
-        for (DogController dog : dogs) {
+        for (KeeperController dog : dogs) {
             if (dog.isVisible()) {
                 g.drawImage(dog.getImage(), dog.getXModel(), dog.getYModel(), this);
             }
@@ -404,7 +401,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
             return;
         }
         for (int i = 0; i < dogs.size(); i++) {
-            DogController dog = dogs.get(i);
+            KeeperController dog = dogs.get(i);
             if (dog.isVisible()) {
                 moveDog();
             } else {
@@ -544,7 +541,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
             } 
             
-            for (DogController dog : dogs) {
+            for (KeeperController dog : dogs) {
                 Rectangle r5 = dog.getBounds();
                 if (r5.intersects(r3)) {
                     ingame = false;
@@ -569,7 +566,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
             player.animate();
             
             for (int i = 0; i < dogs.size(); i++) {
-                DogController dog = dogs.get(i);    
+                KeeperController dog = dogs.get(i);    
                 dog.animate();
             }        
             for (int i = 0; i < keepers.size(); i++) {

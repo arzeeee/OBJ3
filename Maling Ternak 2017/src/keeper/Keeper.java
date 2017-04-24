@@ -10,16 +10,21 @@ import movingSprites.MovingSprite;
  * @author Aya Aurora
  */
 public class Keeper extends MovingSprite{
+    private int tipe;
     
-    public Keeper(int x, int y) {
+    public Keeper(int x, int y,int tipe) {
         this.x = x;
         this.y = y;
         this.count = 1;
         this.direction = 1;
+        this.tipe = tipe;
     }
 
-    public void setDirection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getTipe() {
+        return tipe;
     }
     
+    public void setTipe(int input) {
+        this.tipe = input;
+    }
 }
