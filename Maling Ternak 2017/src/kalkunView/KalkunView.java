@@ -16,10 +16,10 @@ public class KalkunView extends SpriteView {
     public KalkunView() {
         vis = true;
         imageName = "chicken.png";
-        initChicken(imageName);
+        initKalkun(imageName);
     }
     
-    private void initChicken(String imageName) {
+    private void initKalkun(String imageName) {
         loadImage(imageName);
         getImageDimensions();
     }

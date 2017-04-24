@@ -8,10 +8,16 @@ package maling.ayam.pkg2017;
 import playerController.PlayerController;
 import keeperController.KeeperController;
 import chickenController.ChickenController;
+import kalkunController.KalkunController;
+import bebekController.BebekController;
 import keeper.Keeper;
 import chicken.Chicken;
+import kalkun.Kalkun;
+import bebek.Bebek;
 import player.Player;
 import chickenView.ChickenView;
+import kalkunView.KalkunView;
+import bebekView.BebekView;
 import keeperView.KeeperView;
 import playerView.PlayerView;
 import wall.Wall;
@@ -41,6 +47,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private PlayerController player;
     private ArrayList<KeeperController> keepers;
     private ArrayList<ChickenController> chickens;
+    private ArrayList<BebekController> bebeks;
+    private ArrayList<KalkunController> kalkuns;
     private ArrayList<WallController> walls;
     private boolean ingame;
     private final int ICRAFT_X = 40;
@@ -70,7 +78,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {700, 120}, {760, 20}, {600, 180},
         {200, 100}, {60, 800}, {100, 580}
     };
-    
+
+    private final int[][] initPosBebek = {
+        {10, 30}, {20, 60}, {30, 90},
+    };
+
+    private final int[][] initPosKalkun = {
+        {20, 40}, {30, 50}, {50, 70},
+    };
+            
     private final int[][] initPosWall = {
         {180,100} , {600,100}
     };
@@ -144,6 +160,38 @@ public class Board extends JPanel implements ActionListener, Runnable {
         for (int i = 0; i < chickens.size(); i++) {
             ChickenController chicken = chickens.get(i);
             chicken.move();
+        }
+    }  
+ 
+    public void initBebek() {
+        bebeks = new ArrayList<>();
+        for (int[] p : initPosBebek) {
+            Bebek model = new Bebek(p[0], p[1]);
+            BebekView view = new BebekView();
+            bebeks.add(new BebekController(model,view));
+        }
+    }
+
+    public void moveBebek() {        
+        for (int i = 0; i < bebeks.size(); i++) {
+            BebekController bebek = bebeks.get(i);
+            bebek.move();
+        }
+    }  
+
+    public void initKalkun() {
+        kalkuns = new ArrayList<>();
+        for (int[] p : initPosKalkun) {
+            Kalkun model = new Kalkun(p[0], p[1]);
+            KalkunView view = new KalkunView();
+            kalkuns.add(new KalkunController(model,view));
+        }
+    }
+
+    public void moveKalkun() {        
+        for (int i = 0; i < kalkuns.size(); i++) {
+            KalkunController kalkun = kalkuns.get(i);
+            kalkun.move();
         }
     }  
     

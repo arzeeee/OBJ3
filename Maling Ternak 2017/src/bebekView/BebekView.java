@@ -16,10 +16,10 @@ public class BebekView extends SpriteView {
     public BebekView() {
         vis = true;
         imageName = "chicken.png";
-        initChicken(imageName);
+        initBebek(imageName);
     }
     
-    private void initChicken(String imageName) {
+    private void initBebek(String imageName) {
         loadImage(imageName);
         getImageDimensions();
     }
