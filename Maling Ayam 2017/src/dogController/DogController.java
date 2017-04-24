@@ -90,10 +90,23 @@ public class DogController{
         return new Rectangle(getXModel(), getYModel(), getWidthSprite(), getHeightSprite());
     }
     
+    public void animate() {
+        model.setCount(model.getCount()+1);
+        if (model.getCount() > 3) {
+                model.setCount(1);
+        }  
+    }
+    
     public void move() {
         //generate random movement
-            Random rand = new Random();
-            model.setDirection(rand.nextInt(4)+1);
+            if(getXModel() <= 50) {
+                model.setDirection(2);
+            }
+            
+            if (getXModel() >= 750) {
+                model.setDirection(4);
+            }
+            
             if (model.getDirection() == 1) {
                 view.loadImage("./img/dog/dog1" + "down.png");
                 view.getImageDimensions();
@@ -102,6 +115,7 @@ public class DogController{
             if (model.getDirection() == 2) {
                 view.loadImage("./img/dog/dog1" + "right.png");
                 view.getImageDimensions();
+                setXModel(getXModel()+5);
             }
         
             if (model.getDirection() == 3) {
@@ -112,20 +126,9 @@ public class DogController{
             if (model.getDirection() == 4) {
                 view.loadImage("./img/dog/dog1" + "left.png");
                 view.getImageDimensions();
+                setXModel(getXModel()-5);
             }
             
-            int newX = getXModel() + (rand.nextInt(3) - 1);
-            do {
-                newX = getXModel() + (rand.nextInt(3) - 1);
-            } while (newX>790 || newX<=10);
-            setXModel(newX);
-            if (rand.nextInt(3) - 1 == 0) { //absis doesn't change
-                int newY = getYModel() + (rand.nextInt(3) - 1); //change ordinat
-                do {
-                newY = getYModel() + (rand.nextInt(3) - 1);
-                } while (newY>590 || newY<=20);
-                setYModel(newY);
-            }
             
     }
 }

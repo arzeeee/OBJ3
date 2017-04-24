@@ -14,6 +14,7 @@ public class Keeper extends MovingSprite{
     public Keeper(int x, int y) {
         this.x = x;
         this.y = y;
+        this.count = 1;
     }
     
 }

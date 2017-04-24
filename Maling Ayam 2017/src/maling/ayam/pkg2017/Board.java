@@ -63,7 +63,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     };
 
     private final int[][] initPosDog = {
-        {770,500}
+        {770,550}
     };
     
     private final int[][] initPosChicken = {

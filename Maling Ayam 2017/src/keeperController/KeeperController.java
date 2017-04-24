@@ -89,6 +89,13 @@ public class KeeperController{
         return new Rectangle(getXModel(), getYModel(), getWidthSprite(), getHeightSprite());
     }
     
+    public void animate() {
+        model.setCount(model.getCount()+1);
+        if (model.getCount() > 3) {
+                model.setCount(1);
+        }  
+    }
+    
     public void move (PlayerController craft) {
         //non-random movement to catch player
             int deltaX = Math.abs(getXModel() - craft.getXPlayer());
