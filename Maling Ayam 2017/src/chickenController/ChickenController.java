@@ -115,9 +115,15 @@ public class ChickenController{
             }
             
             int newX = getXModel() + (rand.nextInt(3) - 1);
+            do {
+                newX = getXModel() + (rand.nextInt(3) - 1);
+            } while (newX>790 || newX<=10);
             setXModel(newX);
             if (rand.nextInt(3) - 1 == 0) { //absis doesn't change
                 int newY = getYModel() + (rand.nextInt(3) - 1); //change ordinat
+                do {
+                newY = getYModel() + (rand.nextInt(3) - 1);
+                } while (newY>590 || newY<=20);
                 setYModel(newY);
             }
             

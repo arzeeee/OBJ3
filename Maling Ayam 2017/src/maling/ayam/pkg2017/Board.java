@@ -68,7 +68,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {400, 259}, {660, 50}, {540, 90},
         {100, 220}, {100, 20}, {740, 180},
         {700, 120}, {760, 20}, {600, 180},
-        {200, 100}, {60, 800}, {100, 580}
+        {200, 100}, {60, 500}, {100, 580}
     };
     
     private final int[][] initPosWall = {
