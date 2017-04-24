@@ -7,17 +7,14 @@ package maling.ternak.pkg2017;
 
 import playerController.PlayerController;
 import keeperController.KeeperController;
-import animalController.chickenController.ChickenController;
-import animalController.kalkunController.KalkunController;
+import animalController.chickenController.AnimalController;
 import dogController.DogController;
 import dogView.DogView;
 import dog.Dog;
 import keeper.Keeper;
-import animal.chicken.Chicken;
-import animal.kalkun.Kalkun;
+import animal.chicken.Animal;
 import player.Player;
-import animalView.chickenView.ChickenView;
-import animalView.kalkunView.KalkunView;
+import animalView.chickenView.AnimalView;
 import keeperView.KeeperView;
 import playerView.PlayerView;
 import wall.Wall;
@@ -47,9 +44,9 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private PlayerController player;
     private ArrayList<KeeperController> keepers;
     private ArrayList<DogController> dogs;
-    private ArrayList<ChickenController> chickens;
-    private ArrayList<ChickenController> bebeks;
-    private ArrayList<KalkunController> kalkuns;
+    private ArrayList<AnimalController> chickens;
+    private ArrayList<AnimalController> bebeks;
+    private ArrayList<AnimalController> angsas;
     private ArrayList<WallController> walls;
     private boolean ingame;
     private final int ICRAFT_X = 40;
@@ -97,7 +94,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {200, 100}, {60, 800}, {100, 580}
     };
 
-    private final int[][] initPosKalkun = {
+    private final int[][] initPosAngsa = {
         {100, 29}, {200, 59}, {300, 89},
         {780, 109}, {580, 139}, {680, 239},
         {790, 259}, {760, 50}, {790, 150},
@@ -150,7 +147,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         initDogs();
         initChickens();
         initBebek();
-        initKalkun();
+        initAngsa();
         initWalls();
         
         timer = new Timer(DELAY, this);
@@ -192,15 +189,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initChickens() {
         chickens = new ArrayList<>();
         for (int[] p : initPosChicken) {
-            Chicken model = new Chicken(p[0], p[1],1);
-            ChickenView view = new ChickenView();
-            chickens.add(new ChickenController(model,view));
+            Animal model = new Animal(p[0], p[1],1);
+            AnimalView view = new AnimalView();
+            chickens.add(new AnimalController(model,view));
         }
     }
 
     public void moveChicken() {        
         for (int i = 0; i < chickens.size(); i++) {
-            ChickenController chicken = chickens.get(i);
+            AnimalController chicken = chickens.get(i);
             chicken.move();
         }
     }  
@@ -208,32 +205,32 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initBebek() {
         bebeks = new ArrayList<>();
         for (int[] p : initPosBebek) {
-            Chicken model = new Chicken(p[0], p[1],2);
-            ChickenView view = new ChickenView();
-            bebeks.add(new ChickenController(model,view));
+            Animal model = new Animal(p[0], p[1],2);
+            AnimalView view = new AnimalView();
+            bebeks.add(new AnimalController(model,view));
         }
     }
 
     public void moveBebek() {        
         for (int i = 0; i < bebeks.size(); i++) {
-            ChickenController bebek = bebeks.get(i);
+            AnimalController bebek = bebeks.get(i);
             bebek.move();
         }
     }  
 
-    public void initKalkun() {
-        kalkuns = new ArrayList<>();
-        for (int[] p : initPosKalkun) {
-            Kalkun model = new Kalkun(p[0], p[1]);
-            KalkunView view = new KalkunView();
-            kalkuns.add(new KalkunController(model,view));
+    public void initAngsa() {
+        angsas = new ArrayList<>();
+        for (int[] p : initPosAngsa) {
+            Animal model = new Animal(p[0], p[1],3);
+            AnimalView view = new AnimalView();
+            angsas.add(new AnimalController(model,view));
         }
     }
 
-    public void moveKalkun() {        
-        for (int i = 0; i < kalkuns.size(); i++) {
-            KalkunController kalkun = kalkuns.get(i);
-            kalkun.move();
+    public void moveAngsa() {        
+        for (int i = 0; i < angsas.size(); i++) {
+            AnimalController angsa = angsas.get(i);
+            angsa.move();
         }
     }  
     
@@ -279,19 +276,19 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 g.drawImage(dog.getImage(), dog.getXModel(), dog.getYModel(), this);
             }
         }
-        for (ChickenController chicken : chickens) {
+        for (AnimalController chicken : chickens) {
             if (chicken.isVisible()) {
                 g.drawImage(chicken.getImage(), chicken.getXModel(), chicken.getYModel(), this);
             }
         }    
-        for (ChickenController bebek : bebeks) {
+        for (AnimalController bebek : bebeks) {
             if (bebek.isVisible()) {
                 g.drawImage(bebek.getImage(), bebek.getXModel(), bebek.getYModel(), this);
             }
         }  
-        for (KalkunController kalkun : kalkuns) {
-            if (kalkun.isVisible()) {
-                g.drawImage(kalkun.getImage(), kalkun.getXModel(), kalkun.getYModel(), this);
+        for (AnimalController angsa : angsas) {
+            if (angsa.isVisible()) {
+                g.drawImage(angsa.getImage(), angsa.getXModel(), angsa.getYModel(), this);
             }
         }  
         for (WallController wall : walls) {
@@ -323,7 +320,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         updateKeepers();
         updateChickens();
         updateBebeks();
-        updateKalkuns();
+        updateAngsas();
         updateDogs();
         checkCollisions();
         repaint();
@@ -357,12 +354,12 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void updateChickens() {
-        if (bebeks.isEmpty() && chickens.isEmpty() && kalkuns.isEmpty()) {
+        if (bebeks.isEmpty() && chickens.isEmpty() && angsas.isEmpty()) {
             ingame = false;
             return;
         }
         for (int i = 0; i < chickens.size(); i++) {
-            ChickenController chicken = chickens.get(i);
+            AnimalController chicken = chickens.get(i);
             if (chicken.isVisible()) {
                 moveChicken();
             } else {
@@ -372,12 +369,12 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void updateBebeks() {
-        if (bebeks.isEmpty() && chickens.isEmpty() && kalkuns.isEmpty()) {
+        if (bebeks.isEmpty() && chickens.isEmpty() && angsas.isEmpty()) {
             ingame = false;
             return;
         }
         for (int i = 0; i < bebeks.size(); i++) {
-            ChickenController bebek = bebeks.get(i);
+            AnimalController bebek = bebeks.get(i);
             if (bebek.isVisible()) {
                 moveBebek();
             } else {
@@ -386,17 +383,17 @@ public class Board extends JPanel implements ActionListener, Runnable {
         }
     }
     
-    private void updateKalkuns() {
-        if (bebeks.isEmpty() && chickens.isEmpty() && kalkuns.isEmpty()) {
+    private void updateAngsas() {
+        if (bebeks.isEmpty() && chickens.isEmpty() && angsas.isEmpty()) {
             ingame = false;
             return;
         }
-        for (int i = 0; i < kalkuns.size(); i++) {
-            KalkunController kalkun = kalkuns.get(i);
-            if (kalkun.isVisible()) {
-                moveKalkun();
+        for (int i = 0; i < angsas.size(); i++) {
+            AnimalController angsa = angsas.get(i);
+            if (angsa.isVisible()) {
+                moveAngsa();
             } else {
-                kalkuns.remove(i);
+                angsas.remove(i);
             }
         }
     }
@@ -425,7 +422,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         
     public void checkCollisions() {
         Rectangle r3 = player.getBoundsPlayer();
-        for (ChickenController chicken : chickens) {
+        for (AnimalController chicken : chickens) {
             Rectangle r1 = chicken.getBounds();
             if (r3.intersects(r1)) {
                 chicken.setVisible(false);
@@ -433,7 +430,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 player.setScorePlayer(score);
             }
         }
-        for (ChickenController bebek : bebeks) {
+        for (AnimalController bebek : bebeks) {
             Rectangle r1 = bebek.getBounds();
             if (r3.intersects(r1)) {
                 bebek.setVisible(false);
@@ -441,10 +438,10 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 player.setScorePlayer(score);
             }
         }
-        for (KalkunController kalkun : kalkuns) {
-            Rectangle r1 = kalkun.getBounds();
+        for (AnimalController angsa : angsas) {
+            Rectangle r1 = angsa.getBounds();
             if (r3.intersects(r1)) {
-                kalkun.setVisible(false);
+                angsa.setVisible(false);
                 int score = player.getScorePlayer() + 15;
                 player.setScorePlayer(score);
             }
@@ -470,7 +467,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
             }
             
-            for (ChickenController chicken : chickens) {
+            for (AnimalController chicken : chickens) {
                 Rectangle r1 = chicken.getBounds();
                 if (r1.intersects(r4)) {
                     if (chicken.getXModel() < wall.getXModel()) {
@@ -488,7 +485,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
             }
 
-            for (ChickenController bebek : bebeks) {
+            for (AnimalController bebek : bebeks) {
                 Rectangle r1 = bebek.getBounds();
                 if (r1.intersects(r4)) {
                     if (bebek.getXModel() < wall.getXModel()) {
@@ -506,20 +503,20 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
             }
 
-            for (KalkunController kalkun : kalkuns) {
-                Rectangle r1 = kalkun.getBounds();
+            for (AnimalController angsa : angsas) {
+                Rectangle r1 = angsa.getBounds();
                 if (r1.intersects(r4)) {
-                    if (kalkun.getXModel() < wall.getXModel()) {
-                        kalkun.setXModel(kalkun.getXModel()-3);
+                    if (angsa.getXModel() < wall.getXModel()) {
+                        angsa.setXModel(angsa.getXModel()-3);
                     }
-                    if (kalkun.getXModel() > wall.getXModel()) {
-                        kalkun.setXModel(kalkun.getXModel()+3);
+                    if (angsa.getXModel() > wall.getXModel()) {
+                        angsa.setXModel(angsa.getXModel()+3);
                     }
-                    if (kalkun.getYModel() < wall.getXModel()) {
-                        kalkun.setYModel(kalkun.getYModel()-3);
+                    if (angsa.getYModel() < wall.getXModel()) {
+                        angsa.setYModel(angsa.getYModel()-3);
                     }
-                    if (kalkun.getYModel() > wall.getYModel()) {
-                        kalkun.setYModel(kalkun.getYModel()+3);
+                    if (angsa.getYModel() > wall.getYModel()) {
+                        angsa.setYModel(angsa.getYModel()+3);
                     }
                 }
             }

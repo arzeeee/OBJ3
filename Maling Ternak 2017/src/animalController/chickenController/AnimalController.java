@@ -5,8 +5,8 @@
  */
 package animalController.chickenController;
 
-import animal.chicken.Chicken;
-import animalView.chickenView.ChickenView;
+import animal.chicken.Animal;
+import animalView.chickenView.AnimalView;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.Random;
@@ -15,16 +15,16 @@ import java.util.Random;
  *
  * @author Aya Aurora
  */
-public class ChickenController{
-    private Chicken model;
-    private ChickenView view;
+public class AnimalController{
+    private Animal model;
+    private AnimalView view;
     
-    public ChickenController(Chicken model, ChickenView view) {
+    public AnimalController(Animal model, AnimalView view) {
         this.model = model;
         this.view = view;
     }
     
-    public Chicken getModel() {
+    public Animal getModel() {
         return model;
     }
     
@@ -36,7 +36,7 @@ public class ChickenController{
         return model.getY();
     }
     
-    public ChickenView getView() {
+    public AnimalView getView() {
         return view;
     }
     
@@ -65,7 +65,7 @@ public class ChickenController{
     }
     
     //Setter Chicken
-    public void setModel(Chicken model) {
+    public void setModel(Animal model) {
         this.model = model;
     }
     
@@ -78,7 +78,7 @@ public class ChickenController{
     }
     
     //Setter ChickenView
-    public void setView(ChickenView view) {
+    public void setView(AnimalView view) {
         this.view = view;
     }
     

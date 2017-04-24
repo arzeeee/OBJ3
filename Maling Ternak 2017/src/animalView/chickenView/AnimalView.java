@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package animalView.kalkunView;
+package animalView.chickenView;
 
 import spriteView.SpriteView;
 
@@ -11,15 +11,15 @@ import spriteView.SpriteView;
  *
  * @author Rizky Faramita
  */
-public class KalkunView extends SpriteView {
+public class AnimalView extends SpriteView {
     
-    public KalkunView() {
+    public AnimalView() {
         vis = true;
-        imageName = "kalkun.png";
-        initKalkun(imageName);
+        imageName = "chicken.png";
+        initChicken(imageName);
     }
     
-    private void initKalkun(String imageName) {
+    private void initChicken(String imageName) {
         loadImage(imageName);
         getImageDimensions();
     }
