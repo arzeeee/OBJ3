@@ -398,6 +398,10 @@ public class Board extends JPanel implements ActionListener, Runnable {
         beforeTime = System.currentTimeMillis();
         while (true) {
             player.animate();
+            for (int i = 0; i < dogs.size(); i++) {
+                DogController dog = dogs.get(i);    
+                dog.animate();
+            }        
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0) {

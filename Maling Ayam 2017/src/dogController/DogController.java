@@ -108,23 +108,23 @@ public class DogController{
             }
             
             if (model.getDirection() == 1) {
-                view.loadImage("./img/dog/dog1" + "down.png");
+                view.loadImage("./img/dog/dog"+ model.getCount() + "down.png");
                 view.getImageDimensions();
             }
         
             if (model.getDirection() == 2) {
-                view.loadImage("./img/dog/dog1" + "right.png");
+                view.loadImage("./img/dog/dog"+ model.getCount() + "right.png");
                 view.getImageDimensions();
                 setXModel(getXModel()+5);
             }
         
             if (model.getDirection() == 3) {
-                view.loadImage("./img/dog/dog1" + "up.png");
+                view.loadImage("./img/dog/dog"+ model.getCount() + "up.png");
                 view.getImageDimensions();
             }
         
             if (model.getDirection() == 4) {
-                view.loadImage("./img/dog/dog1" + "left.png");
+                view.loadImage("./img/dog/dog"+ model.getCount() + "left.png");
                 view.getImageDimensions();
                 setXModel(getXModel()-5);
             }
