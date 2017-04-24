@@ -15,6 +15,11 @@ public class Keeper extends MovingSprite{
         this.x = x;
         this.y = y;
         this.count = 1;
+        this.direction = 1;
+    }
+
+    public void setDirection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

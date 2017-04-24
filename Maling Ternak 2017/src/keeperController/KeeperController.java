@@ -9,6 +9,7 @@ import keeper.Keeper;
 import keeperView.KeeperView;
 import java.awt.Image;
 import java.awt.Rectangle;
+import keeper.Keeper;
 import playerController.PlayerController;
 /**
  *
@@ -98,27 +99,53 @@ public class KeeperController{
     
     public void move (PlayerController craft) {
         //non-random movement to catch player
-            int deltaX = Math.abs(getXModel() - craft.getXPlayer());
-            int deltaY = Math.abs(getYModel() - craft.getYPlayer());
-            if (deltaX == 0) { //absis parallel move closer to ordinat
-                if (getYModel() > craft.getYPlayer()) {
-                    setYModel(getYModel() - 2);//move faster when parallel
-                } else {
-                    setYModel(getYModel() + 2);
-                }
-            } else if (deltaY == 0) { //ordinat parallel move closer to absis
-                if (getXModel() > craft.getXPlayer()) {
-                    setXModel(getXModel() - 2);
-                } else {
-                    setXModel(getXModel() + 2);
-                }            
-            } else if (deltaX != 0 && deltaY != 0) {
-                //find nearest path to get its absis parallel
-                if (getXModel() > craft.getXPlayer()) {
-                    setXModel(getXModel() - 1);//move slower when not parallel
-                } else {
-                    setXModel(getXModel() + 1);
-                }
+        int deltaX = Math.abs(getXModel() - craft.getXPlayer());
+        int deltaY = Math.abs(getYModel() - craft.getYPlayer());
+        if (deltaX == 0) { //absis parallel move closer to ordinat
+            if (getYModel() > craft.getYPlayer()) {
+                setYModel(getYModel() - 2);//move faster when parallel
+                model.setDirection(3);
+            } else {
+                setYModel(getYModel() + 2);
+                model.setDirection(1);
             }
+        } else if (deltaY == 0) { //ordinat parallel move closer to absis
+            if (getXModel() > craft.getXPlayer()) {
+                setXModel(getXModel() - 2);
+                model.setDirection(4);
+            } else {
+                setXModel(getXModel() + 2);
+                model.setDirection(2);
+            }            
+        } else if (deltaX != 0 && deltaY != 0) {
+            //find nearest path to get its absis parallel
+            if (getXModel() > craft.getXPlayer()) {
+                setXModel(getXModel() - 1);//move slower when not parallel
+                model.setDirection(4);
+            } else {
+                setXModel(getXModel() + 1);
+                model.setDirection(2);
+            }
+        }
+            
+        if (model.getDirection() == 1) {
+            view.loadImage("./img/keeper/keeper" + model.getCount() + "down.png");
+            view.getImageDimensions();
+        }
+        
+        if (model.getDirection() == 2) {
+            view.loadImage("./img/keeper/keeper" + model.getCount() + "right.png");
+            view.getImageDimensions();
+        }
+        
+        if (model.getDirection() == 3) {
+            view.loadImage("./img/keeper/keeper"+ model.getCount() + "up.png");
+            view.getImageDimensions();
+        }
+        
+        if (model.getDirection() == 4) {
+            view.loadImage("./img/keeper/keeper" + model.getCount() + "left.png");
+            view.getImageDimensions();
+        }
     }
 }

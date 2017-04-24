@@ -10,6 +10,9 @@ import keeperController.KeeperController;
 import chickenController.ChickenController;
 import kalkunController.KalkunController;
 import bebekController.BebekController;
+import dogController.DogController;
+import dogView.DogView;
+import dog.Dog;
 import keeper.Keeper;
 import chicken.Chicken;
 import kalkun.Kalkun;
@@ -46,6 +49,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private Timer timer;
     private PlayerController player;
     private ArrayList<KeeperController> keepers;
+    private ArrayList<DogController> dogs;
     private ArrayList<ChickenController> chickens;
     private ArrayList<BebekController> bebeks;
     private ArrayList<KalkunController> kalkuns;
@@ -64,6 +68,10 @@ public class Board extends JPanel implements ActionListener, Runnable {
     
     private final int[][] initPosKeeper = {
         {790, 500}
+    };
+    
+    private final int[][] initPosDog = {
+        {790, 550}
     };
 
     private final int[][] initPosChicken = {
@@ -124,6 +132,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         player = new PlayerController(model, view);
 
         initKeepers();
+        initDogs();
         initChickens();
         initWalls();
         
@@ -139,11 +148,27 @@ public class Board extends JPanel implements ActionListener, Runnable {
             keepers.add(new KeeperController(model,view));
         }
     }
+    
+    public void initDogs() {
+        dogs = new ArrayList<>();
+        for (int[] p : initPosDog) {
+            Dog model = new Dog(p[0], p[1]);
+            DogView view = new DogView();
+            dogs.add(new DogController(model,view));
+        }
+    }
 
     public void moveKeeper() {
         for (int i = 0; i < keepers.size(); i++) {
             KeeperController keeper = keepers.get(i);
             keeper.move(player);
+        }        
+    }
+    
+    public void moveDog() {
+        for (int i = 0; i < dogs.size(); i++) {
+            DogController dog = dogs.get(i);
+            dog.move();
         }        
     }
         
@@ -231,6 +256,11 @@ public class Board extends JPanel implements ActionListener, Runnable {
             if (keeper.isVisible()) {
                 g.drawImage(keeper.getImage(), keeper.getXModel(), keeper.getYModel(), this);
             }
+        }        
+        for (DogController dog : dogs) {
+            if (dog.isVisible()) {
+                g.drawImage(dog.getImage(), dog.getXModel(), dog.getYModel(), this);
+            }
         }
         for (ChickenController chicken : chickens) {
             if (chicken.isVisible()) {
@@ -265,6 +295,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         updateCraft();
         updateKeepers();
         updateChickens();
+        updateDogs();
         checkCollisions();
         repaint();
     }
@@ -307,6 +338,21 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 moveChicken();
             } else {
                 chickens.remove(i);
+            }
+        }
+    }
+    
+    private void updateDogs() {
+        if (dogs.isEmpty()) {
+            ingame = false;
+            return;
+        }
+        for (int i = 0; i < dogs.size(); i++) {
+            DogController dog = dogs.get(i);
+            if (dog.isVisible()) {
+                moveDog();
+            } else {
+                dogs.remove(i);
             }
         }
     }
@@ -384,7 +430,18 @@ public class Board extends JPanel implements ActionListener, Runnable {
                         keeper.setYModel(keeper.getYModel()+3);
                     }
                 }
+                if (r2.intersects(r3)) {
+                    ingame = false;
+                }
             } 
+            
+            for (DogController dog : dogs) {
+                Rectangle r5 = dog.getBounds();
+                if (r5.intersects(r3)) {
+                    ingame = false;
+                }
+            }
+            
         }
     }
 
@@ -401,6 +458,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
         beforeTime = System.currentTimeMillis();
         while (true) {
             player.animate();
+            
+            for (int i = 0; i < dogs.size(); i++) {
+                DogController dog = dogs.get(i);    
+                dog.animate();
+            }        
+            for (int i = 0; i < keepers.size(); i++) {
+                KeeperController keeper = keepers.get(i);    
+                keeper.animate();
+            }    
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0) {

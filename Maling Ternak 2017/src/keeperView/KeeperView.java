@@ -11,7 +11,7 @@ public class KeeperView extends SpriteView {
     
     public KeeperView() {
         vis = true;
-        imageName = "alien2.png";
+        imageName = "./img/keeper/keeper.png";
         initKeeper(imageName);
     } 
     
