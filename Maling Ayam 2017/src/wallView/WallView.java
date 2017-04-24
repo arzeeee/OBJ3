@@ -14,7 +14,7 @@ public class WallView extends SpriteView {
     
     public WallView() {
         vis = true;
-        imageName = "chicken.png";
+        imageName = "./img/fence.png";
         initWall(imageName);
     }
     

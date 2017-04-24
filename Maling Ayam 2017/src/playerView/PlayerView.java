@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 public class PlayerView extends SpriteView {
 
     public PlayerView() {
-        imageName = "craft.png";
+        imageName = "./img/player/player.png";
         initPlayer(imageName);
         vis = true;
     }

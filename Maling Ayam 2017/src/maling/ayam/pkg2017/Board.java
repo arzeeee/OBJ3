@@ -38,7 +38,7 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener, Runnable {
 
     private Timer timer;
-    private PlayerController craft;
+    private PlayerController player;
     private ArrayList<KeeperController> keepers;
     private ArrayList<ChickenController> chickens;
     private ArrayList<WallController> walls;
@@ -55,24 +55,24 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private int tileHeight;
     
     private final int[][] initPosKeeper = {
-        {820, 128}
+        {790, 500}
     };
 
     private final int[][] initPosChicken = {
-        {2380, 29}, {2500, 59}, {1380, 89},
+        {100, 29}, {200, 59}, {300, 89},
         {780, 109}, {580, 139}, {680, 239},
         {790, 259}, {760, 50}, {790, 150},
-        {980, 209}, {560, 45}, {510, 70},
-        {930, 159}, {590, 80}, {530, 60},
-        {940, 59}, {990, 30}, {920, 200},
-        {900, 259}, {660, 50}, {540, 90},
-        {810, 220}, {860, 20}, {740, 180},
+        {400, 209}, {560, 45}, {510, 70},
+        {400, 159}, {590, 80}, {530, 60},
+        {400, 59}, {400, 30}, {400, 200},
+        {400, 259}, {660, 50}, {540, 90},
+        {100, 220}, {100, 20}, {740, 180},
         {700, 120}, {760, 20}, {600, 180},
         {200, 100}, {60, 800}, {100, 580}
     };
     
     private final int[][] initPosWall = {
-        {400,300}  
+        {180,100} , {600,100}
     };
     
     public Board() {
@@ -80,7 +80,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void initBoard() {   
-        ImageIcon ii = new ImageIcon("tile.png");
+        ImageIcon ii = new ImageIcon("./img/tile.png");
         tile = ii.getImage();
         tileWidth = tile.getWidth(null);
         tileHeight = tile.getHeight(null);
@@ -105,7 +105,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
-        craft = new PlayerController(model, view);
+        player = new PlayerController(model, view);
 
         initKeepers();
         initChickens();
@@ -127,7 +127,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void moveKeeper() {
         for (int i = 0; i < keepers.size(); i++) {
             KeeperController keeper = keepers.get(i);
-            keeper.move(craft);
+            keeper.move(player);
         }        
     }
         
@@ -175,8 +175,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void drawObjects(Graphics g) {
-        if (craft.isVisiblePlayer()) {            
-            g.drawImage(craft.getImagePlayer(), craft.getXPlayer(), craft.getYPlayer(),
+        if (player.isVisiblePlayer()) {            
+            g.drawImage(player.getImagePlayer(), player.getXPlayer(), player.getYPlayer(),
                     this);            
         }
         for (KeeperController keeper : keepers) {
@@ -196,7 +196,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
         }    
         g.setColor(Color.WHITE);
         g.drawString("Time: " + time + "s", 5, 15);
-        g.drawString("Score: " + craft.getScorePlayer(), 100, 15);
+        g.drawString("Score: " + player.getScorePlayer(), 100, 15);
     }
 
     private void drawGameOver(Graphics g) {
@@ -228,8 +228,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void updateCraft() {
-        if (craft.isVisiblePlayer()) {
-            craft.move();
+        if (player.isVisiblePlayer()) {
+            player.move();
         }
     }
 
@@ -271,42 +271,34 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
         
     public void checkCollisions() {
-        Rectangle r3 = craft.getBoundsPlayer();
-        /*for (KeeperController keeper : keepers) {
-            Rectangle r2 = keeper.getBounds();
-            if (r3.intersects(r2)) {
-                craft.setVisiblePlayer(false);
-                keeper.setVisible(false);
-                ingame = false;
-            }
-        }        */
+        Rectangle r3 = player.getBoundsPlayer();
         for (ChickenController chicken : chickens) {
             Rectangle r1 = chicken.getBounds();
             if (r3.intersects(r1)) {
                 chicken.setVisible(false);
-                int score = craft.getScorePlayer() + 5;
-                craft.setScorePlayer(score);
+                int score = player.getScorePlayer() + 5;
+                player.setScorePlayer(score);
             }
         }
         
         for (WallController wall : walls) {
             Rectangle r4 = wall.getBounds();
             if (r3.intersects(r4)) {
-                if (craft.getXPlayer() < wall.getXModel()) {
-                    craft.setXPlayer(craft.getXPlayer()-3);
-                    craft.setDxPlayer(0);
+                if (player.getXPlayer() < wall.getXModel()) {
+                    player.setXPlayer(player.getXPlayer()-3);
+                    player.setDxPlayer(0);
                 } else 
-                if (craft.getXPlayer() > wall.getXModel()) {
-                    craft.setXPlayer(craft.getXPlayer()+3);
-                    craft.setDxPlayer(0);
+                if (player.getXPlayer() > wall.getXModel()) {
+                    player.setXPlayer(player.getXPlayer()+3);
+                    player.setDxPlayer(0);
                 } else
-                if (craft.getYPlayer() < wall.getXModel()) {
-                    craft.setYPlayer(craft.getYPlayer()-3);
-                    craft.setDyPlayer(0);
+                if (player.getYPlayer() < wall.getXModel()) {
+                    player.setYPlayer(player.getYPlayer()-3);
+                    player.setDyPlayer(0);
                 } else
-                if (craft.getYPlayer() > wall.getXModel()) {
-                    craft.setYPlayer(craft.getYPlayer()+3);
-                    craft.setDyPlayer(0);
+                if (player.getYPlayer() > wall.getXModel()) {
+                    player.setYPlayer(player.getYPlayer()+3);
+                    player.setDyPlayer(0);
                 }
             }
             
@@ -314,16 +306,16 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 Rectangle r1 = chicken.getBounds();
                 if (r1.intersects(r4)) {
                     if (chicken.getXModel() < wall.getXModel()) {
-                        chicken.setXModel(chicken.getXModel()-1);
+                        chicken.setXModel(chicken.getXModel()-3);
                     }
                     if (chicken.getXModel() > wall.getXModel()) {
-                        chicken.setXModel(chicken.getXModel()+1);
+                        chicken.setXModel(chicken.getXModel()+3);
                     }
                     if (chicken.getYModel() < wall.getXModel()) {
-                        chicken.setYModel(chicken.getYModel()-1);
+                        chicken.setYModel(chicken.getYModel()-3);
                     }
                     if (chicken.getYModel() > wall.getYModel()) {
-                        chicken.setYModel(chicken.getYModel()+1);
+                        chicken.setYModel(chicken.getYModel()+3);
                     }
                 }
             }
@@ -360,14 +352,14 @@ public class Board extends JPanel implements ActionListener, Runnable {
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
         while (true) {
-            craft.animate();
+            player.animate();
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0) {
                 sleep = 2;
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
                 System.out.println("Interrupted: " + e.getMessage());
             }
@@ -379,12 +371,12 @@ public class Board extends JPanel implements ActionListener, Runnable {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            craft.keyReleased(e);
+            player.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            craft.keyPressed(e);
+            player.keyPressed(e);
         }
     };
 }

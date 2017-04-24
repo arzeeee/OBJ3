@@ -93,11 +93,33 @@ public class ChickenController{
     public void move() {
         //generate random movement
             Random rand = new Random();
+            model.setDirection(rand.nextInt(4)+1);
+            if (model.getDirection() == 1) {
+                view.loadImage("./img/chicken/chicken" + "down.png");
+                view.getImageDimensions();
+            }
+        
+            if (model.getDirection() == 2) {
+                view.loadImage("./img/chicken/chicken" + "right.png");
+                view.getImageDimensions();
+            }
+        
+            if (model.getDirection() == 3) {
+                view.loadImage("./img/chicken/chicken" + "up.png");
+                view.getImageDimensions();
+            }
+        
+            if (model.getDirection() == 4) {
+                view.loadImage("./img/chicken/chicken" + "left.png");
+                view.getImageDimensions();
+            }
+            
             int newX = getXModel() + (rand.nextInt(3) - 1);
             setXModel(newX);
             if (rand.nextInt(3) - 1 == 0) { //absis doesn't change
                 int newY = getYModel() + (rand.nextInt(3) - 1); //change ordinat
                 setYModel(newY);
             }
+            
     }
 }

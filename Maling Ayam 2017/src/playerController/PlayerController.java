@@ -162,22 +162,22 @@ public class PlayerController {
         }
         
         if (model.getDirection() == 1) {
-            view.loadImage("craft" + model.getCount() + "down.png");
+            view.loadImage("./img/player/player" + model.getCount() + "down.png");
             view.getImageDimensions();
         }
         
         if (model.getDirection() == 2) {
-            view.loadImage("craft" + model.getCount() + "right.png");
+            view.loadImage("./img/player/player" + model.getCount() + "right.png");
             view.getImageDimensions();
         }
         
         if (model.getDirection() == 3) {
-            view.loadImage("craft"+ model.getCount() + "up.png");
+            view.loadImage("./img/player/player"+ model.getCount() + "up.png");
             view.getImageDimensions();
         }
         
         if (model.getDirection() == 4) {
-            view.loadImage("craft" + model.getCount() + "left.png");
+            view.loadImage("./img/player/player" + model.getCount() + "left.png");
             view.getImageDimensions();
         }
     }
