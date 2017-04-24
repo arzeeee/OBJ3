@@ -11,10 +11,21 @@ import movingSprites.MovingSprite;
  * @author Aya Aurora
  */
 public class Chicken extends MovingSprite{    
+    private int tipe;
     
-    public Chicken(int x, int y) {
+    public Chicken(int x, int y,int tipe) {
         this.x = x;
         this.y = y;
         this.count = 1;
-    }   
+        this.tipe = tipe;
+    }   ;
+    
+    public int getTipe() {
+        return tipe;
+    };
+    
+    public void setTipe(int input) {
+        tipe = input;
+    }
+    
 }

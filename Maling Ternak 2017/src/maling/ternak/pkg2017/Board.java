@@ -8,7 +8,6 @@ package maling.ternak.pkg2017;
 import playerController.PlayerController;
 import keeperController.KeeperController;
 import animalController.chickenController.ChickenController;
-import animalController.bebekController.BebekController;
 import animalController.kalkunController.KalkunController;
 import dogController.DogController;
 import dogView.DogView;
@@ -16,11 +15,9 @@ import dog.Dog;
 import keeper.Keeper;
 import animal.chicken.Chicken;
 import animal.kalkun.Kalkun;
-import animal.bebek.Bebek;
 import player.Player;
 import animalView.chickenView.ChickenView;
 import animalView.kalkunView.KalkunView;
-import animalView.bebekView.BebekView;
 import keeperView.KeeperView;
 import playerView.PlayerView;
 import wall.Wall;
@@ -51,7 +48,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private ArrayList<KeeperController> keepers;
     private ArrayList<DogController> dogs;
     private ArrayList<ChickenController> chickens;
-    private ArrayList<BebekController> bebeks;
+    private ArrayList<ChickenController> bebeks;
     private ArrayList<KalkunController> kalkuns;
     private ArrayList<WallController> walls;
     private boolean ingame;
@@ -195,7 +192,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initChickens() {
         chickens = new ArrayList<>();
         for (int[] p : initPosChicken) {
-            Chicken model = new Chicken(p[0], p[1]);
+            Chicken model = new Chicken(p[0], p[1],1);
             ChickenView view = new ChickenView();
             chickens.add(new ChickenController(model,view));
         }
@@ -211,15 +208,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
     public void initBebek() {
         bebeks = new ArrayList<>();
         for (int[] p : initPosBebek) {
-            Bebek model = new Bebek(p[0], p[1]);
-            BebekView view = new BebekView();
-            bebeks.add(new BebekController(model,view));
+            Chicken model = new Chicken(p[0], p[1],2);
+            ChickenView view = new ChickenView();
+            bebeks.add(new ChickenController(model,view));
         }
     }
 
     public void moveBebek() {        
         for (int i = 0; i < bebeks.size(); i++) {
-            BebekController bebek = bebeks.get(i);
+            ChickenController bebek = bebeks.get(i);
             bebek.move();
         }
     }  
@@ -287,7 +284,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 g.drawImage(chicken.getImage(), chicken.getXModel(), chicken.getYModel(), this);
             }
         }    
-        for (BebekController bebek : bebeks) {
+        for (ChickenController bebek : bebeks) {
             if (bebek.isVisible()) {
                 g.drawImage(bebek.getImage(), bebek.getXModel(), bebek.getYModel(), this);
             }
@@ -380,7 +377,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
             return;
         }
         for (int i = 0; i < bebeks.size(); i++) {
-            BebekController bebek = bebeks.get(i);
+            ChickenController bebek = bebeks.get(i);
             if (bebek.isVisible()) {
                 moveBebek();
             } else {
@@ -436,7 +433,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 player.setScorePlayer(score);
             }
         }
-        for (BebekController bebek : bebeks) {
+        for (ChickenController bebek : bebeks) {
             Rectangle r1 = bebek.getBounds();
             if (r3.intersects(r1)) {
                 bebek.setVisible(false);
@@ -491,7 +488,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
             }
 
-            for (BebekController bebek : bebeks) {
+            for (ChickenController bebek : bebeks) {
                 Rectangle r1 = bebek.getBounds();
                 if (r1.intersects(r4)) {
                     if (bebek.getXModel() < wall.getXModel()) {
@@ -532,9 +529,11 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 if (r2.intersects(r4)) {
                     if (keeper.getXModel() < wall.getXModel()) {
                         keeper.setXModel(keeper.getXModel()-3);
+                        keeper.setYModel(keeper.getYModel()+3);
                     }
                     if (keeper.getXModel() > wall.getXModel()) {
                         keeper.setXModel(keeper.getXModel()+3);
+                        keeper.setYModel(keeper.getYModel()+3);
                     }
                     if (keeper.getYModel() < wall.getXModel()) {
                         keeper.setYModel(keeper.getYModel()-3);

@@ -95,22 +95,22 @@ public class ChickenController{
             Random rand = new Random();
             model.setDirection(rand.nextInt(4)+1);
             if (model.getDirection() == 1) {
-                view.loadImage("./img/chicken/chicken" + "down.png");
+                view.loadImage("./img/chicken/chicken"+ model.getTipe() + "down.png");
                 view.getImageDimensions();
             }
         
             if (model.getDirection() == 2) {
-                view.loadImage("./img/chicken/chicken" + "right.png");
+                view.loadImage("./img/chicken/chicken"+ model.getTipe() + "right.png");
                 view.getImageDimensions();
             }
         
             if (model.getDirection() == 3) {
-                view.loadImage("./img/chicken/chicken" + "up.png");
+                view.loadImage("./img/chicken/chicken"+ model.getTipe() + "up.png");
                 view.getImageDimensions();
             }
         
             if (model.getDirection() == 4) {
-                view.loadImage("./img/chicken/chicken" + "left.png");
+                view.loadImage("./img/chicken/chicken"+ model.getTipe() + "left.png");
                 view.getImageDimensions();
             }
             
