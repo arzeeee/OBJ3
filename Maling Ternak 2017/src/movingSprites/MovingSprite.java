@@ -7,7 +7,7 @@ package movingSprites;
 import sprite.Sprite;
 /**
  *
- * @author user
+ * @author Mahdiar Naufal
  */
 public abstract class MovingSprite extends Sprite {
     protected int dx;

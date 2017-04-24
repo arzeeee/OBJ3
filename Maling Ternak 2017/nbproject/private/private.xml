@@ -3,15 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/maling/ayam/pkg2017/Board.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/playerController/PlayerController.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/movingSprites/MovingSprite.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/wall/Wall.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/player/Player.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/wallView/WallView.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/maling/ayam/pkg2017/MainMenu.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/maling/ayam/pkg2017/MalingAyam2017.java</file>
-            <file>file:/C:/Users/user/Desktop/OBJ3/OBJ3/Maling%20Ayam%202017/src/chickenController/ChickenController.java</file>
+            <file>file:/C:/Users/Diar/Desktop/OOP2/OBJ3/Maling%20Ternak%202017/src/kalkunController/KalkunController.java</file>
+            <file>file:/C:/Users/Diar/Desktop/OOP2/OBJ3/Maling%20Ternak%202017/src/maling/ternak/pkg2017/Board.java</file>
+            <file>file:/C:/Users/Diar/Desktop/OOP2/OBJ3/Maling%20Ternak%202017/src/chickenController/ChickenController.java</file>
+            <file>file:/C:/Users/Diar/Desktop/OOP2/OBJ3/Maling%20Ternak%202017/src/dogController/DogController.java</file>
+            <file>file:/C:/Users/Diar/Desktop/OOP2/OBJ3/Maling%20Ternak%202017/src/maling/ternak/pkg2017/MalingTernak2017.java</file>
         </group>
     </open-files>
 </project-private>
