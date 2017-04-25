@@ -15,6 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -30,8 +35,9 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
     private final int B_WIDTH = 800;
     private final int B_HEIGHT = 600;
     private final int DELAY = 15;
+    private Integer highscore;
     
-    public MainMenu() {
+    public MainMenu() throws FileNotFoundException {
 
         initMainMenu();
     }
@@ -96,8 +102,10 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
         gd.drawString(s, (B_WIDTH - metr.stringWidth(s)) / 2, B_HEIGHT - 170); 
     }
 
-    private void initMainMenu() {
+    private void initMainMenu() throws FileNotFoundException {
         //setLayout(null);
+        Scanner inFile = new Scanner(new FileReader("hscore.txt"));
+        highscore = inFile.nextInt();
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.black);
@@ -131,8 +139,12 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
                 }
             }
         } else {
-            Board panel;
-            add(panel = new Board());
+            Board panel = null;
+            try {
+                add(panel = new Board());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             panel.setBounds(0,0,B_WIDTH,B_HEIGHT);
             panel.addKeyListener(panel.TAdapter);
             panel.setFocusable(true);
@@ -202,6 +214,7 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
     private void drawHighScore(Graphics g) {
 
         String msg = "HighScore";
+        String msg2 = highscore.toString();
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics fm = getFontMetrics(small);
 
@@ -209,6 +222,8 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
                 B_HEIGHT / 2);
+        g.drawString(msg2, (B_WIDTH - fm.stringWidth(msg2)) / 2,
+                B_HEIGHT / 2 + 50);
     }
     
     private void drawInstruction(Graphics g) {
