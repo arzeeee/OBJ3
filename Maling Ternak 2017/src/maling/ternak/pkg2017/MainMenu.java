@@ -15,16 +15,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class MainMenu extends JPanel implements ActionListener, Runnable {
-
     private Timer timer;
     private boolean ingame;
     private boolean startgame;
@@ -36,9 +39,10 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
     private final int B_HEIGHT = 600;
     private final int DELAY = 15;
     private Integer highscore;
+    private final String music = "./music/mainmenu.wav";
+    private Clip clip;
     
     public MainMenu() throws FileNotFoundException {
-
         initMainMenu();
     }
     
@@ -104,6 +108,15 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
 
     private void initMainMenu() throws FileNotFoundException {
         //setLayout(null);
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(music).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch(Exception ex) {
+            System.out.println("Error with playing sound.");
+          ex.printStackTrace();
+        }
         Scanner inFile = new Scanner(new FileReader("hscore.txt"));
         highscore = inFile.nextInt();
         addKeyListener(new TAdapter());
@@ -262,7 +275,7 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
     @Override
     public void actionPerformed(ActionEvent e) {
         inGame();
-        repaint();
+        repaint();        
     }
 
     private void inGame() {        
@@ -307,6 +320,7 @@ public class MainMenu extends JPanel implements ActionListener, Runnable {
                         case 0:
                             //startgame = true;
                             ingame=false;
+                            clip.stop();
                             break;
                         case 1:
                             phase = 1;

@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -39,6 +40,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -67,6 +71,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private final int winscore = 200;
     private Integer highscore;
     private boolean isCaught = false;
+    private final String music = "./music/ingame.wav";
+    private Clip clip;
     
     private final int[][] initPosKeeper = {
         {790, 500}
@@ -111,6 +117,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
     }
 
     private void initBoard() throws FileNotFoundException {   
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(music).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch(Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
         Scanner inFile = new Scanner(new FileReader("hscore.txt"));
         highscore = inFile.nextInt();
         ImageIcon ii = new ImageIcon("./img/tile.png");
@@ -253,6 +268,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
             g2d.dispose();
             drawObjects(g);
         } else {
+            clip.stop();
             if (player.getScorePlayer() >= highscore && !isCaught) {
                 try {
                     drawGameWin(g,player.getScorePlayer());
