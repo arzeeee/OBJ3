@@ -6,16 +6,19 @@
 package maling.ternak.pkg2017;
 
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 public class MalingTernak2017 extends JFrame {
 
-    public MalingTernak2017() {
+    public MalingTernak2017() throws FileNotFoundException {
         
         initUI();
     }
     
-    private void initUI() {
+    private void initUI() throws FileNotFoundException {
         
         //add(new Board());
         add(new MainMenu());
@@ -32,7 +35,12 @@ public class MalingTernak2017 extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MalingTernak2017 ex = new MalingTernak2017();
+                MalingTernak2017 ex = null;
+                try {
+                    ex = new MalingTernak2017();
+                } catch (FileNotFoundException ex1) {
+                    Logger.getLogger(MalingTernak2017.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 ex.setVisible(true);
             }
         });
