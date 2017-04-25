@@ -30,7 +30,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -52,12 +60,13 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private final int B_HEIGHT = 600;
     private final int DELAY = 15;
     private Thread animator;
-    private int time = 100;
+    private int time = 60;
     private Image tile;
     private int tileWidth;
     private int tileHeight;
     private final int winscore = 200;
-    private int highscore;
+    private Integer highscore;
+    private boolean isCaught = false;
     
     private final int[][] initPosKeeper = {
         {790, 500}
@@ -97,11 +106,13 @@ public class Board extends JPanel implements ActionListener, Runnable {
         {180,100} , {600,100}
     };
     
-    public Board() {
+    public Board() throws FileNotFoundException {
         initBoard();
     }
 
-    private void initBoard() {   
+    private void initBoard() throws FileNotFoundException {   
+        Scanner inFile = new Scanner(new FileReader("hscore.txt"));
+        highscore = inFile.nextInt();
         ImageIcon ii = new ImageIcon("./img/tile.png");
         tile = ii.getImage();
         tileWidth = tile.getWidth(null);
@@ -242,7 +253,15 @@ public class Board extends JPanel implements ActionListener, Runnable {
             g2d.dispose();
             drawObjects(g);
         } else {
-            drawGameOver(g);
+            if (player.getScorePlayer() >= highscore && !isCaught) {
+                try {
+                    drawGameWin(g,player.getScorePlayer());
+                } catch (IOException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                drawGameOver(g);
+            }            
         }
         Toolkit.getDefaultToolkit().sync();
     }
@@ -296,6 +315,25 @@ public class Board extends JPanel implements ActionListener, Runnable {
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
                 B_HEIGHT / 2);
+    }
+    private void drawGameWin(Graphics g, Integer score) throws IOException {
+        String msg = "YOU WIN!";
+        String msg2 = "AND NEW HIGH SCORE!!";
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        FontMetrics fm = getFontMetrics(small);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
+                B_HEIGHT / 2);
+        if (score > highscore) {
+            g.drawString(msg2, (B_WIDTH - fm.stringWidth(msg2)) / 2,
+                B_HEIGHT / 2 + 50);
+            
+            Writer wr = new FileWriter("hscore.txt");
+            wr.write(score.toString());
+            wr.close();
+        }
     }
 
     @Override
@@ -527,6 +565,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 }
                 if (r2.intersects(r3)) {
                     ingame = false;
+                    isCaught = true;
                 }
             } 
             
@@ -534,6 +573,7 @@ public class Board extends JPanel implements ActionListener, Runnable {
                 Rectangle r5 = dog.getBounds();
                 if (r5.intersects(r3)) {
                     ingame = false;
+                    isCaught = true;
                 }
             }
             
