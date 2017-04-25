@@ -7,11 +7,11 @@ package maling.ternak.pkg2017;
 
 import playerController.PlayerController;
 import keeperController.KeeperController;
-import animalController.chickenController.AnimalController;
+import animalController.AnimalController;
 import keeper.Keeper;
-import animal.chicken.Animal;
+import animal.Animal;
 import player.Player;
-import animalView.chickenView.AnimalView;
+import animalView.AnimalView;
 import keeperView.KeeperView;
 import playerView.PlayerView;
 import wall.Wall;

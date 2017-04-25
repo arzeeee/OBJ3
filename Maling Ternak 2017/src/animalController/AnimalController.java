@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package animalController.chickenController;
+package animalController;
 
-import animal.chicken.Animal;
-import animalView.chickenView.AnimalView;
+import animal.Animal;
+import animalView.AnimalView;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.Random;

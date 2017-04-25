@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package animalView.chickenView;
+package animalView;
 
 import spriteView.SpriteView;
 
