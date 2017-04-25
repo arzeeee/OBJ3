@@ -16,10 +16,10 @@ public class AnimalView extends SpriteView {
     public AnimalView() {
         vis = true;
         imageName = "chicken.png";
-        initChicken(imageName);
+        initAnimal(imageName);
     }
     
-    private void initChicken(String imageName) {
+    private void initAnimal(String imageName) {
         loadImage(imageName);
         getImageDimensions();
     }
