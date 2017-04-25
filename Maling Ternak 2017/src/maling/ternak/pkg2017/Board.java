@@ -56,6 +56,8 @@ public class Board extends JPanel implements ActionListener, Runnable {
     private Image tile;
     private int tileWidth;
     private int tileHeight;
+    private final int winscore = 200;
+    private int highscore;
     
     private final int[][] initPosKeeper = {
         {790, 500}
